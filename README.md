@@ -2,7 +2,7 @@
 
 A Client-side emoji parsing library which can be used for auto complete and prediction.
 
-View the demo [here](https://wykerd.github.io/emoji-parser/demo.html)
+View the demo by cloning and running demo.html from server!
 
 # Installation
  - Install dependencies with bower
