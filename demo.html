@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <script src="emoji-parser.js"></script>
+</head>
+<body>
+    <div id="preview"></div>
+    <textarea id="textarea" cols="100" rows="10">A very simple demo of the library :scream_cat:! Type something ...</textarea>
+    <div id="tooltip"></div>
+    <script>
+        let emojiparser;
+        fetch('./bower_components/emojilib/emojis.json')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(myJson) {
+                emojiparser = new EmojiParser(myJson);
+                textarea.addEventListener('input', ()=>{
+                    predictEmoji();
+                });
+                predictEmoji();
+            });
+
+        const textarea = document.querySelector('#textarea');
+        const suggestions = document.querySelector('#tooltip');
+        const preview = document.querySelector('#preview');
+
+        function autofill(code) {
+            textarea.value = emojiparser.fillCurrentCode(textarea.value, code);
+            textarea.focus();
+        }
+
+        function predictEmoji() {
+            const currentCode = emojiparser.currentlyTypingCode(textarea.value);
+            suggestions.innerHTML = '';
+            if (currentCode){
+                // Only search if more than 3 characters prevent browser lag
+                const matches = emojiparser.getMatching(emojiparser.emojiVal(currentCode));
+                matches.forEach(element => {
+                    suggestions.innerHTML += `<p onclick="autofill(':${element.code}:')">${element.icon} ${element.code}</p>`;
+                });
+            }
+            preview.textContent = emojiparser.parseToEmoji(textarea.value);
+        }
+    </script>
+    <style>
+        p:hover {
+            cursor: pointer;
+            background-color: blanchedalmond;
+        }
+    </style>
+</body>
+</html>

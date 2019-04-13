@@ -1,0 +1,27 @@
+{
+  "name": "emoji-parser",
+  "main": "emoji-parser.js",
+  "authors": [
+    "Daniel Wykerd <danielwykerd@gmail.com>"
+  ],
+  "description": "A simple Emoji parsing library for emoji shortcodes with autocomplete and predictive text",
+  "keywords": [
+    "emoji-parser",
+    "emoji",
+    "emoji-shortcodes",
+    "emoji-lib"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "emojilib": "git://github.com/muan/emojilib.git#^2.4.0",
+    "noto-emoji": "git://github.com/googlei18n/noto-emoji.git"
+  }
+}
