@@ -57,6 +57,27 @@ class EmojiParser {
 
         // Function to extract emoji name
         this.emojiVal = str => str.split(':')[1];
+
+        this.shortCodeTemplate = str=>`:${str}:`;
+
+        this.skintoneTemplate = str=>{
+            switch (str) {
+                case fitzpatrick_scale_modifiers[0]:
+                    return ':skintone_2:';
+                
+                case fitzpatrick_scale_modifiers[1]:
+                    return ':skintone_3:';
+
+                case fitzpatrick_scale_modifiers[2]:
+                    return ':skintone_4:';
+
+                case fitzpatrick_scale_modifiers[3]:
+                    return ':skintone_5:';
+
+                case fitzpatrick_scale_modifiers[4]:
+                    return ':skintone_6:';
+            }
+        };
     }
 
     getMatching (word) {
@@ -153,5 +174,23 @@ class EmojiParser {
 
     parseToImg(emojiStr) {
         return emojiStr.replace(this.regex.emoji, emoji=> `<img class="${this.image.class}" alt="${emoji}" src="${this.getImageURL(emoji)}" />` )
+    }
+
+    parseToShorcode(emojiStr) {
+        // Replace the skintone modifiers
+        let half = emojiStr;
+
+        fitzpatrick_scale_modifiers.forEach(element => {
+            half = half.replace(new RegExp(element, 'g'), modifier=>this.skintoneTemplate(modifier))
+        });
+
+        return half
+            .replace(this.regex.emoji, emoji=>{
+                for (const code in this.emojis) {
+                    if(this.emojis[code].char === emoji){
+                        return this.shortCodeTemplate(code);
+                    }
+                }
+            });
     }
 }

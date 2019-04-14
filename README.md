@@ -153,6 +153,14 @@ emojiparser.parseToImg('A very simple demo of the library 🙀! Type something .
 // Returns "A very simple demo of the library <img class=\"emoji\" alt=\"🙀\" src=\"https://twemoji.maxcdn.com/2/72x72//1f640.png\" />! Type something ... <img class=\"emoji\" alt=\"👌🏾\" src=\"https://twemoji.maxcdn.com/2/72x72//1f44c-1f3fe.png\" />"
 ```
 
+## Parsing back to shortcodes
+Sometimes users enter emojis directly into the input field, this is not good for keeping things uniform on the server-side, so when sending input to the server it is recommended to parse the input back to shortcodes using the method ```parseToShortcode(emojiStr)```
+
+```
+emojiparser.parseToShorcode('A very simple demo of the library 🙀! Type something ... 👌🏾');
+// Returns "A very simple demo of the library :scream_cat:! Type something ... :ok_hand::skintone_5:"
+```
+
 ## Custom shortcode delimiters
 It is quite simple to set your own shortcode delimiters or formats by changing the regular expressions and extraction methods of the object
 
@@ -170,7 +178,7 @@ Here are all the steps with an example
     emojiparser.regex.skintone = /\|[^\s]+\|![^\s]+!/g;
     emojiparser.regex.typing = /|[^(\s|\|)]+$/g;
     ```
-2. Lastly the methods of code extraction has to be changed aswell
+3. The methods of code extraction has to be changed aswell
     - There are 2 methods ```emojiVal(str)``` and ```skintoneVal(str)```
         - ```emojiVal(str)``` return the code value of the emoji and ```skintoneVal(str)``` the unicode character for the fitzpatrick scale modifiers
         - The fitzpatrick scale modifiers are stored in ```const fitzpatrick_scale_modifiers = ["🏻", "🏼", "🏽", "🏾", "🏿"];``` accessible in the ```skintoneVal(str)``` method
@@ -203,12 +211,38 @@ Here are all the steps with an example
     }
     ```
 
+3. Lastly the methods for converting back to code has to be chnaged
+    - There are 2 methods ```shortCodeTemplate(str)``` and ```skintoneTemplate(str)```
+        - ```shortCodeTemplate(str)``` gets called with the calculated code so all you need to do is add the delimiters and return it.
+        - ```skintoneTemplate(str)``` gets called with the scale modifier so you need to spesify the format yourself
+            - You can thus set your own shorcodes for skintone if required by your project
+    - Following the example:
+    ```
+    this.shortCodeTemplate = str=>`|${str}|`;
+
+    this.skintoneTemplate = str=>{
+        switch (str) {
+            case fitzpatrick_scale_modifiers[0]:
+                return '!skintone_2!';
+            
+            case fitzpatrick_scale_modifiers[1]:
+                return '!skintone_3!';
+
+            case fitzpatrick_scale_modifiers[2]:
+                return '!skintone_4!';
+
+            case fitzpatrick_scale_modifiers[3]:
+                return '!skintone_5!';
+
+            case fitzpatrick_scale_modifiers[4]:
+                return '!skintone_6!';
+        }
+    };
+    ```
+
 Now when calling in the example ```emojiparser.parseToEmoji('Test: |ok_woman|[skintone_2]')``` it will return the same result as the default ```emojiparser.parseToEmoji('Test: :ok_woman::skintone_2:')```
 
 # Minimizing the installation
 If required you can delete all unused files from the dependencies listed below
 - Everything in ```/bower_components/noto-emoji``` except ```/png/``` directory
 - Everything in ```/bower_components/emojilib``` except ```/emojis.json``` file
-
-# TODO 
-[X] Add method to replace emojis with img elements
