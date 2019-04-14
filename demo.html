@@ -32,12 +32,15 @@
         const preview2 = document.querySelector('#preview-2');
 
         function autofill(code) {
-            textarea.value = emojiparser.fillCurrentCode(textarea.value, code);
+            let end = textarea.value.slice(textarea.selectionEnd);
+            let start = emojiparser.fillCurrentCode(textarea.value.slice(0, textarea.selectionEnd), code);
+            textarea.value = start + end;
             textarea.focus();
+            textarea.setSelectionRange(start.length, start.length);
         }
 
         function predictEmoji() {
-            const currentCode = emojiparser.currentlyTypingCode(textarea.value);
+            const currentCode = emojiparser.currentlyTypingCode(textarea.value.slice(0, textarea.selectionEnd));
             suggestions.innerHTML = '';
             if (currentCode){
                 // Only search if more than 3 characters prevent browser lag
