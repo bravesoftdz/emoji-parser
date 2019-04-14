@@ -84,14 +84,14 @@ class EmojiParser {
         // Put all objects matching into an array
         let newArr = [];
         for (const emoji in this.emojis) {
-            if (emoji.indexOf(word) > -1) {
+            if (emoji.indexOf(word.toLowerCase()) > -1) {
                 newArr.push({
                     code: emoji,
                     icon: this.emojis[emoji].char,
                     fitzpatrick_scale: this.emojis[emoji].fitzpatrick_scale,
                     category: this.emojis[emoji].category
                 })
-            } else if (this.emojis[emoji].keywords.indexOf(word) > -1) {
+            } else if (this.emojis[emoji].keywords.indexOf(word.toLowerCase()) > -1) {
                 newArr.push({
                     code: emoji,
                     icon: this.emojis[emoji].char,
