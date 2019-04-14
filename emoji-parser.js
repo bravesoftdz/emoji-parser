@@ -17,7 +17,8 @@ class EmojiParser {
 
         // Object that defines the namescheme of the images
         this.image = {
-            directory: './noto-emoji/png',
+            class: 'emoji',
+            directory: './bower_components/noto-emoji/png/128',
             format: 'png',
             nameScheme: {
                 prefix: 'emoji_u',
@@ -148,5 +149,9 @@ class EmojiParser {
         split.pop();
         split.push(code);
         return split.join('');
+    }
+
+    parseToImg(emojiStr) {
+        return emojiStr.replace(this.regex.emoji, emoji=> `<img class="${this.image.class}" alt="${emoji}" src="${this.getImageURL(emoji)}" />` )
     }
 }

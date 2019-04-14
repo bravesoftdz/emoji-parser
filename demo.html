@@ -9,6 +9,7 @@
 </head>
 <body>
     <div id="preview"></div>
+    <div id="preview-2"></div>
     <textarea id="textarea" cols="100" rows="10">A very simple demo of the library :scream_cat:! Type something ...</textarea>
     <div id="tooltip"></div>
     <script>
@@ -28,6 +29,7 @@
         const textarea = document.querySelector('#textarea');
         const suggestions = document.querySelector('#tooltip');
         const preview = document.querySelector('#preview');
+        const preview2 = document.querySelector('#preview-2');
 
         function autofill(code) {
             textarea.value = emojiparser.fillCurrentCode(textarea.value, code);
@@ -45,12 +47,18 @@
                 });
             }
             preview.textContent = emojiparser.parseToEmoji(textarea.value);
+            preview2.innerHTML = emojiparser.parseToImg(emojiparser.parseToEmoji(textarea.value));
         }
     </script>
     <style>
         p:hover {
             cursor: pointer;
             background-color: blanchedalmond;
+        }
+
+        #preview-2 img {
+            height: 16px;
+            width:  16px;
         }
     </style>
 </body>

@@ -110,6 +110,49 @@ emojiparser.parseToEmoji("I :heart: this library :smiley:");
 // Returns "I ❤️ this library 😃"
 ```
 
+## Parsing emojis to images
+Why parse to images? Parsing to images allows for greater crossplatform support and uniformity. 
+
+The library provides multiple methods for parsing emojis to images. You need to supply the emoji files by yourself. I recommend using noto-emoji which gets installed automatically with bower. Just make sure to add all the person emojis as only gendered ones are included!
+
+To set the naming scheme of the emoji files are easy. By default it will be set up to use the noto-emoji format, but you can manually set it to for example use twemoji.
+
+The naming scheme is held in a property called ```image``` and is defined by default as
+```
+this.image = {
+    class: 'emoji',
+    directory: './bower_components/noto-emoji/png/128',
+    format: 'png',
+    nameScheme: {
+        prefix: 'emoji_u',
+        hexJoin: '_',
+        suffix: ''
+    }
+};
+```
+
+Lets as an example set the parser to use twemoji instead
+```
+emojiparser.image.directory = 'https://twemoji.maxcdn.com/2/72x72'
+emojiparser.image.nameScheme = {
+    prefix: '',
+    hexJoin: '-',
+    suffix: ''
+}
+```
+
+### To parse a single emoji character use the method ```getImageURL(emoji)```
+```
+emojiparser.getImageURL('👌🏾');
+// Returns "https://twemoji.maxcdn.com/2/72x72/1f44c-1f3fe.png"
+```
+
+### To parse a whole string to image elements using the method ```parseToImg(emojiStr)```
+```
+emojiparser.parseToImg('A very simple demo of the library 🙀! Type something ... 👌🏾');
+// Returns "A very simple demo of the library <img class=\"emoji\" alt=\"🙀\" src=\"https://twemoji.maxcdn.com/2/72x72//1f640.png\" />! Type something ... <img class=\"emoji\" alt=\"👌🏾\" src=\"https://twemoji.maxcdn.com/2/72x72//1f44c-1f3fe.png\" />"
+```
+
 ## Custom shortcode delimiters
 It is quite simple to set your own shortcode delimiters or formats by changing the regular expressions and extraction methods of the object
 
@@ -168,4 +211,4 @@ If required you can delete all unused files from the dependencies listed below
 - Everything in ```/bower_components/emojilib``` except ```/emojis.json``` file
 
 # TODO 
-1. Add method to replace emojis with img elements
+[X] Add method to replace emojis with img elements
