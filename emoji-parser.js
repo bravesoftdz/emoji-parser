@@ -18,8 +18,8 @@ class EmojiParser {
         // Object that defines the namescheme of the images
         this.image = {
             class: 'emoji',
-            directory: './bower_components/noto-emoji/png/128',
-            format: 'png',
+            directory: './bower_components/noto-emoji/svg',
+            format: 'svg',
             nameScheme: {
                 prefix: 'emoji_u',
                 hexJoin: '_',
