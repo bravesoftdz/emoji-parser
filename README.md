@@ -72,12 +72,13 @@ Now you can use all three these functions to create a predictive text engine tha
 ```
 function predictEmoji(string) {
     const currentCode = emojiparser.currentlyTypingCode(string);
-    if (currentCode) {predictEmoji();
-        return emojiparspredictEmoji();er.getMatching(emojiparser.emojiVal(currentCode));predictEmoji();
-    }predictEmoji();
-}predictEmoji();
-predictEmoji();
-predictEmoji(`I :heart: predictEmoji();this library :smi');
+    if (currentCode) {
+        return emojiparser.getMatching(emojiparser.emojiVal(currentCode));
+    }
+}
+
+predictEmoji(`I :heart: this library :smi');
+
 /* 
 Returns array [
   {
